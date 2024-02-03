@@ -47,7 +47,9 @@ pipeline {
             steps {
                 //
                 sh """
-                    echo "this is deply"
+                    ls -la
+                    zip -q -r catalogue.zip ./* -x ".git" -x "*.zip"
+                    ls -ltr
                 """
             }
         }
@@ -71,6 +73,7 @@ pipeline {
     post { 
         always { 
             echo 'I will always say Hello again!'
+            deleteDir()
         }
         failure { 
             echo 'This run when pipeline failed ,get the failed alert!'
