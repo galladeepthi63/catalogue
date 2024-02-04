@@ -74,7 +74,7 @@ pipeline {
                 )
             }
         }
-        stage('build') {
+        stage('Deploy') {
             steps {
                 //
                 def params = [
