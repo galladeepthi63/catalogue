@@ -44,6 +44,17 @@ pipeline {
                 """
             }
         }
+        
+        stage('build') {
+            steps {
+                //
+                sh """
+                    ls -la
+                    zip -q -r catalogue.zip ./* -x ".git" -x "*.zip"
+                    ls -ltr
+                """
+            }
+        }
         stage('Publish Artifact') {
             steps {
                  nexusArtifactUploader(
@@ -61,16 +72,6 @@ pipeline {
                         type: 'zip']
                     ]
                 )
-            }
-        }
-        stage('Deploy') {
-            steps {
-                //
-                sh """
-                    ls -la
-                    zip -q -r catalogue.zip ./* -x ".git" -x "*.zip"
-                    ls -ltr
-                """
             }
         }
         // stage('check param') {
