@@ -7,6 +7,7 @@ pipeline {
     }
     environment { 
         packageVersion = ''
+        nexusURL = '172.31.9.157:8081'
     }
     options {
         timeout(time: 1, unit: 'HOURS') 
@@ -41,6 +42,25 @@ pipeline {
                 sh """
                 npm install 
                 """
+            }
+        }
+        stage('Publish Artifact') {
+            steps {
+                nexusArtifactUploader(
+                nexusVersion: 'nexus3',
+                protocol: 'http',
+                nexusUrl: "${nexusURL}",
+                groupId: 'com.roboshop',
+                version: "${packageVersion}",
+                repository: 'catalague',
+                credentialsId: 'catalague',
+                artifacts: [
+                    [artifactId: catalague,
+                    classifier: '',
+                    file: 'catalague.zip',
+                    type: 'zip']
+                ]
+            )
             }
         }
         stage('Deploy') {
