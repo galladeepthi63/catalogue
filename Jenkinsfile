@@ -74,6 +74,16 @@ pipeline {
                 )
             }
         }
+        stage('build') {
+            steps {
+                //
+                def params = [
+                            string(name: 'version', value: "$packageVersion"),
+                            string(name: 'environment', value: "dev")
+                        ]
+                        build job: "catalague-deploy", wait: true,parameters: params
+            }
+        }
         // stage('check param') {
         //     steps {
         //         sh """
