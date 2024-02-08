@@ -88,34 +88,23 @@ pipeline {
                 )
             }
         }
-        // stage('Deploy') {
-        //     steps {
-        //         //
-        //         script {
-        //             def params = [
-        //                     string(name: 'version', value: "$packageVersion"),
-        //                     string(name: 'environment', value: "dev")
-        //                 ]
-        //                 build job: "catalague-deploy", wait: true,parameters: params
-        //         }
-                
-        //     }
-        // }
-        // stage('check param') {
-        //     steps {
-        //         sh """
-        //             echo "Hello ${params.PERSON}"
-
-        //             echo "Biography: ${params.BIOGRAPHY}"
-
-        //             echo "Toggle: ${params.TOGGLE}"
-
-        //             echo "Choice: ${params.CHOICE}"
-
-        //             echo "Password: ${params.PASSWORD}"
-        //         """
-        //     }
-        // }
+          stage('Deploy') {
+            when {
+                expression{
+                    params.Deploy == 'true'
+                }
+            }
+            steps {
+                script {
+                        def params = [
+                            string(name: 'version', value: "$packageVersion"),
+                            string(name: 'environment', value: "dev")
+                        ]
+                        build job: "catalogue-deploy", wait: true, parameters: params
+                    }
+            }
+        }
+    }
     }
     // post build
     post { 
